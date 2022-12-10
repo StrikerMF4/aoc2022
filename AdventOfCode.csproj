@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ej1.cs" />
+    <Compile Remove="ej10.cs" />
+    <Compile Remove="ej11.cs" />
+    <Compile Remove="ej12.cs" />
+    <Compile Remove="ej13.cs" />
+    <Compile Remove="ej14.cs" />
+    <Compile Remove="ej15.cs" />
+    <Compile Remove="ej16.cs" />
+    <Compile Remove="ej17.cs" />
+    <Compile Remove="ej18.cs" />
+    <Compile Remove="ej19.cs" />
+    <Compile Remove="ej2.cs" />
+    <Compile Remove="ej3.cs" />
+    <Compile Remove="ej4.cs" />
+    <Compile Remove="ej5.cs" />
+    <Compile Remove="ej6.cs" />
+    <Compile Remove="ej7.cs" />
+    <Compile Remove="ej8.cs" />
+    <Compile Remove="ej9.cs" />
+  </ItemGroup>
+
+</Project>
