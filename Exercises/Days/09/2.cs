@@ -10,10 +10,12 @@ namespace AdventOfCode.Exercises
         {
             string line = inputReader.ReadLine();
 
-            Knot Head = new Knot(0, 0);
-            Knot Tail = new Knot(0, 0);
+            Knot[] Rope = new Knot[10];
+            //Rope.Initialize not working ¯\_(ツ)_/¯
+            for (int i = 0; i < 10; i++)
+                Rope[i] = new Knot();
 
-            Position position;
+            Position position = new Position(0, 0);
             HashSet<Position> positions = new HashSet<Position>();
 
             while (line != null)
@@ -22,8 +24,14 @@ namespace AdventOfCode.Exercises
 
                 for (int i = 0; i < int.Parse(action[1]); i++)
                 {
-                    Head.MoveTowards(action[0]);
-                    position = Tail.MoveTowards(Head);
+                    Rope[0].MoveTowards(action[0]);
+
+                    Knot last = Rope[0];
+                    foreach(Knot knot in Rope[1..])
+                    {
+                        position = knot.MoveTowards(last);
+                        last = knot;
+                    }
 
                     if (!positions.Contains(position))
                         positions.Add(position);
@@ -41,8 +49,7 @@ namespace local9_2 {
     internal class Knot
     {
         Position position;
-
-        public Knot(int x, int y)
+        public Knot(int x = 0, int y = 0)
         {
             position = new Position(x, y);
         }
