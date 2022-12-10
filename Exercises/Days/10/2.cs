@@ -13,9 +13,6 @@
             int buffer;
             int X = 1;
 
-            int sum = 0;
-            int[] wanted = new int[6] { 20, 60, 100, 140, 180, 220 };
-
             while (line != null)
             {
                 string[] instruction = line.Split(" ");
@@ -34,12 +31,9 @@
                 for (int i = 0; i < needed_cycles; i++)
                 {
                     //Drawing
-                    Console.Write((Math.Abs(X - (cycle - 1)) <= 1) ? "#" : ".");
+                    Console.Write((Math.Abs(X - ((cycle - 1) % 40)) <= 1) ? "#" : ".");
                     if ((cycle % 40) == 0)
                         Console.Write("\n");
-
-                    if (wanted.Contains(cycle))
-                        sum += X * cycle;
 
                     cycle++;
                 }
@@ -49,7 +43,7 @@
                 line = inputReader.ReadLine();
             }
 
-            return sum;
+            return 1;
         }
     }
 }

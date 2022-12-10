@@ -8,40 +8,40 @@
         {
             string line = inputReader.ReadLine();
 
-            int cycle = 0;
-            int idle_steps = 0;
-            int buffer = 0;
+            int cycle = 1;
+            int needed_cycles;
+            int buffer;
             int X = 1;
 
             int sum = 0;
             int[] wanted = new int[6] { 20, 60, 100, 140, 180, 220 };
 
-            while(line != null)
+            while (line != null)
             {
-                cycle++;
+                string[] instruction = line.Split(" ");
 
-                if(--idle_steps <= 0)
+                if (instruction[0] == "addx")
                 {
-                    X += buffer;
-
-                    string[] instruction = line.Split(" ");
-
-                    if (instruction[0] == "addx")
-                    {
-                        idle_steps = 2;
-                        buffer = int.Parse(instruction[1]);
-                    }
-                    if (instruction[0] == "noop")
-                    {
-                        idle_steps = 1;
-                        buffer = 0;
-                    }
-
-                    line = inputReader.ReadLine();
+                    buffer = int.Parse(instruction[1]);
+                    needed_cycles = 2;
+                }
+                else
+                {
+                    needed_cycles = 1;
+                    buffer = 0;
                 }
 
-                if(wanted.Contains(cycle))
-                    sum += X * cycle;
+                for (int i = 0; i < needed_cycles; i++)
+                {
+                    if (wanted.Contains(cycle))
+                        sum += X * cycle;
+
+                    cycle++;
+                }
+
+                X += buffer;
+
+                line = inputReader.ReadLine();
             }
 
             return sum;
