@@ -10,6 +10,7 @@ namespace AdventOfCode.Exercises
         {
             string line = "";
 
+            int mcm = 1;
             List<Monkey> monkeys = new();
 
             while (line != null)
@@ -20,6 +21,8 @@ namespace AdventOfCode.Exercises
                 int divisor = int.Parse(inputReader.ReadLine()[21..]);
                 int monkeyTrue = int.Parse(inputReader.ReadLine()[29..]);
                 int monkeyFalse = int.Parse(inputReader.ReadLine()[30..]);
+
+                mcm *= divisor;
 
                 monkeys.Add(new Monkey(
                     id: id,
@@ -49,7 +52,7 @@ namespace AdventOfCode.Exercises
 
                         int toMonkey = monkey.Test(worryLevel);
 
-                        monkeys[toMonkey].Items.Enqueue(worryLevel % 96577);
+                        monkeys[toMonkey].Items.Enqueue(worryLevel % mcm);
                     }
                 }
             }
