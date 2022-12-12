@@ -7,7 +7,7 @@ internal class Program
 {
     private static int Main(string[] args)
     {
-        var excercise = new Ex11_2();
+        var excercise = new Ex12_2();
 
         return excercise.Run();
     }

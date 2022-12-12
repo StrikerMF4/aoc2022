@@ -1,4 +1,4 @@
-﻿using AdventOfCode.Exercises.Days.Domain10;
+﻿using AdventOfCode.Exercises.Days.Domain11;
 
 namespace AdventOfCode.Exercises
 {

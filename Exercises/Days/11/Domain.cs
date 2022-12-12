@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode.Exercises.Days.Domain10
+namespace AdventOfCode.Exercises.Days.Domain11
 {
     public class Monkey
     {
