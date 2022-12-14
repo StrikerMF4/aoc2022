@@ -11,10 +11,10 @@ namespace AdventOfCode.Exercises.Days.Domain12
         public int x;
         public int y;
 
-        public Position(int _x = 0, int _y = 0)
+        public Position(int x = 0, int y = 0)
         {
-            x = _x;
-            y = _y;
+            this.x = x;
+            this.y = y;
         }
 
         public Position Up()

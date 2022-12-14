@@ -63,10 +63,10 @@ namespace AdventOfCode.Exercises.Days.Domain09
         public int x;
         public int y;
 
-        public Position(int _x, int _y)
+        public Position(int x, int y)
         {
-            x = _x;
-            y = _y;
+            this.x = x;
+            this.y = y;
         }
 
         public Position Copy()
