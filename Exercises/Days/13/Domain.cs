@@ -42,7 +42,7 @@ namespace AdventOfCode.Exercises.Days.Domain13
         {
             if(other is Leaf)
             {
-                return -other.Compare(other);
+                return -other.Compare(this);
             }
 
             IEnumerator<Node> left = nodes.GetEnumerator();
@@ -78,11 +78,31 @@ namespace AdventOfCode.Exercises.Days.Domain13
 
             return 1;
         }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Fork)
+                return false;
+
+            Fork fork = obj as Fork;
+
+            if (nodes.Count != fork.nodes.Count)
+                return false;
+
+            return nodes
+                .Zip(fork.nodes)
+                .All(item => item.First.Equals(item.Second));
+        }
     }
 
     public class Leaf : Node
     {
         public int value;
+
+        public Leaf(int value)
+        {
+            this.value = value;
+        }
 
         public Leaf(Fork parent, int value): base(parent)
         {
@@ -99,13 +119,23 @@ namespace AdventOfCode.Exercises.Days.Domain13
         {
             if (other is Fork)
             {
-                var fork = new Fork(parent);
+                var fork = new Fork();
                 fork.nodes.Add(this);
 
                 return fork.Compare(other);
             }
 
             return this.value - (other as Leaf).value;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Leaf)
+                return false;
+
+            Leaf fork = obj as Leaf;
+
+            return value.Equals(fork.value);
         }
     }
 

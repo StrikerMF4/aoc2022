@@ -1,4 +1,5 @@
 ﻿using AdventOfCode.Exercises.Days.Domain13;
+using System.Xml.Linq;
 
 namespace AdventOfCode.Exercises
 {
@@ -9,86 +10,32 @@ namespace AdventOfCode.Exercises
         public override int Run()
         {
             int sum = 0;
+            string line = "";
+
+            Node divider1 = ParseNode("[[2]]");
+            Node divider2 = ParseNode("[[6]]");
+            List<Node> nodes = new List<Node>() { divider1, divider2 };
 
             for (int index = 1; !inputReader.EndOfStream; index++)
             {
-                Node node = ParseNode(inputReader.ReadLine());
-
-                List<Node> nodes = new List<Node>();
-
-                inputReader.ReadLine();
+                line = inputReader.ReadLine();
+                if(line != "")
+                {
+                    nodes.Add(ParseNode(line));
+                }
             }
 
-            return sum;
+            nodes.Sort((a, b) => a.Compare(b));
+
+            foreach(var node in nodes)
+                Console.WriteLine(NodeStringify(node));
+
+            return 
+                (nodes.FindIndex(item => item.Equals(divider1)) + 1) * 
+                (nodes.FindIndex(item => item.Equals(divider2)) + 1);
         }
 
-        private Status InOrder(Node node1, Node node2)
-        {
-            if (node1 is Leaf && node2 is Leaf)
-            {
-                if ((node1 as Leaf).value > (node2 as Leaf).value)
-                {
-                    return Status.NotInOrder;
-                }
-                else if ((node1 as Leaf).value < (node2 as Leaf).value)
-                {
-                    return Status.InOrder;
-                }
-                return Status.ContinueSearching;
-            }
-            else if (node1 is Leaf && node2 is not Leaf)
-            {
-                Fork cover = new Fork();
-                cover.nodes.Add(node1);
-
-                return InOrder(cover, node2);
-            }
-            else if (node1 is not Leaf && node2 is Leaf)
-            {
-                Fork cover = new Fork();
-                cover.nodes.Add(node2);
-
-                return InOrder(node1, cover);
-            }
-            else
-            {
-                return InOrder((node1 as Fork).nodes.GetEnumerator(), (node2 as Fork).nodes.GetEnumerator());
-            }
-        }
-
-        private Status InOrder(IEnumerator<Node> enum1, IEnumerator<Node> enum2)
-        {
-            enum1.MoveNext();
-            enum2.MoveNext();
-
-            while (enum1.Current != null && enum2.Current != null)
-            {
-                var status = InOrder(enum1.Current, enum2.Current);
-
-                if (status != Status.ContinueSearching)
-                {
-                    return status;
-                }
-
-                enum1.MoveNext();
-                enum2.MoveNext();
-            }
-
-            if (enum1.Current == null)
-            {
-                if (enum2.Current != null)
-                {
-                    return Status.InOrder;
-                }
-                else
-                {
-                    return Status.ContinueSearching;
-                }
-            }
-
-            return Status.NotInOrder;
-        }
-
+        
         private Node ParseNode(string input)
         {
             IEnumerator<char> enumerator = input.GetEnumerator();
@@ -123,6 +70,24 @@ namespace AdventOfCode.Exercises
                 }
             }
             return first;
+        }
+
+        private string NodeStringify(Node node)
+        {
+            string result = "";
+            if(node is Fork)
+            {
+                List<string> res = new List<string>();
+                foreach (var child in (node as Fork).nodes)
+                {
+                    res.Add(NodeStringify(child));
+                }
+                return "[" + string.Join(',', res) + "]";
+            }
+            else
+            {
+                return (node as Leaf).value.ToString();
+            }
         }
     }
 }

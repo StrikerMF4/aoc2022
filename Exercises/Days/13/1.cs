@@ -10,89 +10,18 @@ namespace AdventOfCode.Exercises
         public override int Run()
         {
             int sum = 0;
-            
+
             for (int index = 1; !inputReader.EndOfStream; index++)
             {
                 Node first = ParseNode(inputReader.ReadLine());
                 Node second = ParseNode(inputReader.ReadLine());
 
-                sum += InOrder(first, second) == Status.InOrder ? index : 0;
+                sum += first.Compare(second) < 0 ? index : 0;
 
                 inputReader.ReadLine();
             }
 
             return sum;
-        }
-
-        private Status InOrder(Node node1, Node node2)
-        {
-            if (node1 is Leaf && node2 is Leaf)
-            {
-                if ((node1 as Leaf).value > (node2 as Leaf).value)
-                {
-                    return Status.NotInOrder;
-                }
-                else if ((node1 as Leaf).value < (node2 as Leaf).value)
-                {
-                    return Status.InOrder;
-                }
-                return Status.ContinueSearching;
-            }
-            else if (node1 is Leaf && node2 is not Leaf)
-            {
-                Fork cover = new Fork();
-                cover.nodes.Add(node1);
-
-                return InOrder(cover, node2);
-            }
-            else if (node1 is not Leaf && node2 is Leaf)
-            {
-                Fork cover = new Fork();
-                cover.nodes.Add(node2);
-
-                return InOrder(node1, cover);
-            }
-            else
-            {
-                return InOrder((node1 as Fork).nodes.GetEnumerator(), (node2 as Fork).nodes.GetEnumerator());
-            }
-        }
-
-        private Status InOrder(IEnumerator<Node> enum1, IEnumerator<Node> enum2)
-        {
-            enum1.MoveNext();
-            enum2.MoveNext();
-
-            bool left = enum1.Current != null;
-            bool right = enum2.Current != null;
-            while (left && right)
-            {
-                var status = InOrder(enum1.Current, enum2.Current);
-
-                if (status != Status.ContinueSearching)
-                {
-                    return status;
-                }
-
-                enum1.MoveNext();
-                enum2.MoveNext();
-                left = enum1.Current != null;
-                right = enum2.Current != null;
-            }
-
-            if (!left)
-            {
-                if (right)
-                {
-                    return Status.InOrder;
-                }
-                else
-                {
-                    return Status.ContinueSearching;
-                }
-            }
-
-            return Status.NotInOrder;
         }
 
         private Node ParseNode(string input)
@@ -123,7 +52,7 @@ namespace AdventOfCode.Exercises
                 {
                     buffer = null;
                 }
-                else if(buffer == null)
+                else if (buffer == null)
                 {
                     buffer = new Leaf(actual as Fork, int.Parse(ch.ToString()));
                 }
