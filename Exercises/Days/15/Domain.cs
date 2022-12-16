@@ -4,20 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdventOfCode.Exercises.Days.Domain14
+namespace AdventOfCode.Exercises.Days.Domain15
 {
     public class Point
     {
-        public char value;
-        
         public int x;
         public int y;
 
-        public Point(int x, int y, char value = '.')
+        public Point(int x, int y)
         {
             this.x = x;
             this.y = y;
-            this.value = value;
+        }
+
+        public int DistanceTo(Point to)
+        {
+            return Math.Abs(x - to.x) + Math.Abs(y - to.y);
         }
 
         public override int GetHashCode()
@@ -33,6 +35,17 @@ namespace AdventOfCode.Exercises.Days.Domain14
                 return x == position.x && y == position.y;
             }
             return false;
+        }
+    }
+
+    public class Range
+    {
+        public int from, to;
+
+        public Range(int from, int to)
+        {
+            this.from = from;
+            this.to = to;
         }
     }
 }
